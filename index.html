@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <a href="#"><h1>To Do List</h1></a>
+    <form ng-controller="RegistrationController as registration" ng-submit="createUser()">
+        <!-- username -->
+        <div class="form-input">
+            <label for="username">username: </label>
+            <input type="text" id="username" name="username" ng-model="username" placeholder="john_smith" required/>
+        </div>
+        <!-- password -->
+        <div class="form-input">
+            <label for="password">password: </label>
+            <input type="password" id="password" name='password' ng-model="p" placeholder='***********' pattern=".{5,15}" title="The password must contain between 5-15 characters." required/>
+        </div>
+        <!-- repeat password -->
+        <div class="form-input">
+            <label for="passwordconfirm">repeat password: </label>
+            <input type="password" id="passwordconfirm" name='confirm password' ng-model="pconfirm" placeholder='***********' required />
+        </div>
+        <!-- button -->
+        <div class="form-button">
+            <button class="button-submit" type="submit" ng-disabled="!passwordsMatch()">Register</button>
+            <p ng-show="!passwordsMatch()">
+                The passwords don't match
+            </p>
+        </div>
+        <div class="error-message">
+            <p ng-show="errorMessage !== undefined">{{ errorMessage.error }}</p>
+        </div>
+    </form>
+    <div class="login">
+        <p class="login-message">Already registered?</p>
+        <a href="login.html">
+            <button type="button" name="login" class="button-submit">Login</button>
+        </a>
+    </div>
+</body>
+
+</html>
