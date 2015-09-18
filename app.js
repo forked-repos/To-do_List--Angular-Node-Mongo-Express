@@ -43,11 +43,7 @@
     To-do */
     app.controller('TodoController', function($scope, $http, $window) {
 
-        var url = $window.location.href;
-        var urlSplits = usr.split('?');
-        var userParam = urlSplits[1];
-        var userParamSplits = userParam.split('=');
-        $scope.user = userParamSplits[1];
+        $scope.user = $window.location.href.split('?')[1].split('=')[1];
 
         $scope.submitNew = function() {
             $http.post("http://127.0.0.1:3000/todos/new", {
@@ -56,7 +52,7 @@
                 user: $scope.user
             }).success(function(data, status) {
                 $scope.todos.push(data);
-                $scope.todoEntry = '';
+                $scope.todoEntry = undefined;
             }).error(function(data, status) {
                 console.log(data);
             });
@@ -69,15 +65,18 @@
                 }).error(function(data, status) {
                     console.log(data);
                 });
-        };
+        }
 
+        $scope.initTodos = function() {
+            $http.get("http://127.0.0.1:3000/todos?user=" + $scope.user)
+                .success(function(data, status) {
+                    $scope.todos = data;
+                    console.log($scope.todos);
+                }).error(function(data, status) {
+                    console.log('error: ', data);
+                });
+        }
         $scope.todos = [];
-        $http.get("http://127.0.0.1:3000/todos?user=" + $scope.user)
-            .success(function(data, status) {
-                $scope.todos = data;
-                console.log($scope.todos);
-            }).error(function(data, status) {
-                console.log('error: ', data);
-            });
+        $scope.initTodos();
     });
 })();
